@@ -22,27 +22,14 @@
  *	A true "undo" facility
  *	An "ex" line oriented mode- maybe using "cmdedit"
  */
+ 
+#define STANDALONE
 
 #ifdef STANDALONE
 #define BB_VER "version 2.62"
 #define BB_BT "brent@mbari.org"
 
 #define _GNU_SOURCE
-#include <stdarg.h>
-#include <string.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <setjmp.h>
-#include <sys/ioctl.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <signal.h>
-#include <errno.h>
-#include <ctype.h>
-#include <termios.h>
-#include <poll.h>
 
 #define vi_main			main
 #define CONFIG_FEATURE_VI_MAX_LEN 4096
@@ -103,8 +90,6 @@ typedef signed char smallint;
 } while (0)
 
 #endif
-
-#include <limits.h>
 
 /* the CRASHME code is unmaintained, and doesn't currently build */
 #define ENABLE_FEATURE_VI_CRASHME 0
@@ -507,22 +492,6 @@ void *xmalloc(size_t size)
 void *xzalloc(size_t size)
 {
 	return memset(xmalloc(size), 0, size);
-}
-
-void *xstrdup(const char *s)
-{
-	void *ptr = strdup(s);
-	if (ptr) return ptr;
-	perror("strdup");
-	exit(66);
-}
-
-void *xstrndup(const char *s, size_t n)
-{
-	void *ptr = strndup(s, n);
-	if (ptr) return ptr;
-	perror("strndup");
-	exit(67);
 }
 
 void *xrealloc(void *old, size_t size)
@@ -2475,31 +2444,6 @@ static int rawmode(void)
 	tcsetattr(0, TCSANOW, &term_vi);
 
 	unsigned tics = 1;
-    switch (cfgetispeed(&term_vi)) {
-	case B600:
-		tics = 2;
-		break;
-	case B300:
-		tics = 4;
-		break;
-	case B200:
-		tics = 6;
-		break;
-	case B150:
-		tics = 7;
-		break;
-	case B134:
-		tics = 8;
-		break;
-	case B110:
-		tics = 10;
-		break;
-	case B75:
-		tics = 15;
-		break;
-	case B50:
-		tics = 21;
-	} //determines how long to wait for ESCAPE sequences
 	ticsPerChar = tics;
 	return 0;
 }
