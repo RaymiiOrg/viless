@@ -1,5 +1,8 @@
 viless:  A tiny vi text editor clone with enough features to be truly useful
 
+
+Adapted to run on bare metal: https://raymii.org/s/blog/Bare_Metal_Boot_to_Vi.html
+
 ~30 Kbyte executable size (32-bit ARM Linux gcc)
 
 Copyright (C) 2000, 2001 Sterling Huxley <sterling@europa.com>
