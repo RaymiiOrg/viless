@@ -25,7 +25,7 @@
  
 #define STANDALONE
 
-STATIC_YOINK("vga_console");
+
 
 #ifdef STANDALONE
 #define BB_VER "version 2.62"
